@@ -1,0 +1,143 @@
+<header id="main-header" class="py-2 bg-success text-white">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <h1>
+          <i class="fas fa-cog"></i> Recintos
+        </h1>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Botones -->
+<section id="actions" class="py-4 mb-4 bg-light">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3">
+        <!-- <a href="#" class="btn btn-success btn-block" data-toggle="modal" data-target="#agregarRecintoModal">
+          <i class="fas fa-plus"></i> Agregar Recintos en Lote
+        </a> -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--Listado Clientes-->
+<section id="recintos">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-9">
+        <div class="card">
+          <div class="card-header">
+            <h4>Listado de Recintos</h4>
+
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <input type="search" class="form-control" name="filterPost" placeholder="Buscar por nombre..." [(ngModel)]="filterPost">
+                </div>
+              </div>
+            </div>
+
+          </div>
+              <table class="table table-striped">
+                <thead class="thead-dark">
+                  <tr>
+                    <th>#</th>
+                    <th>Nombre de Recinto</th>
+                    <th>Mesas</th>
+                    <th>Electores</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let recinto of recintos | filter:filterPost:'recinto' let i = index">
+                    <td>{{i+1}}</td>
+                    <td>{{recinto.recinto}}</td>
+                    <td>{{recinto.mesas}}</td>
+                    <td>{{recinto.electores}}</td>
+                    <td>
+                      <a routerLink="/recinto/editar/{{recinto.id}}" class="btn btn-secondary">
+                        <!--Botor Editar Recinto-->
+                        <i class="fas fa-user-edit"></i>
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+      </div>
+      <!--Tarjeta lateral-->
+      <div class="col-md-3">
+        <div class="card text-center bg-success text-white mb-3">
+          <div class="card-body">
+            <h3>Total Recintos</h3>
+            <h4 class="display-4">
+              <i class="fas fa-users"></i> {{recintos?.length}}
+            </h4>
+          </div>
+        </div>
+      </div>
+      <!--Fin tarjeta lateral-->
+    </div>
+  </div>
+</section>
+
+<!--Agregar cliente modal-->
+<div class="modal fade" id="agregarRecintoModal">
+  <div class="modal-dialog modal-ls">
+    <div class="modal-content">
+      <div class="modal-header bg-secondary text-white">
+        <h5 class="modal-title">Agregar CENTROS</h5>
+        <button class="close" data-dismiss="modal" #botonCerrar>
+          <span>&times;</span>
+        </button>
+      </div>
+
+      <flash-messages></flash-messages>
+
+      <form #recintoForm="ngForm" (ngSubmit)="agregar(recintoForm)">
+        <div class="modal-body">
+
+          <div class="form-group">
+            <label for="intension_voto">Intención de voto</label>
+            <div class="form-row">
+              <div class="col-md-4 mb-4">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="fiscal" #fiscal="ngModel" [(ngModel)]="recintoT.fiscal"  value="Seguro nos vota">
+                  <label class="form-check-label" for="fiscal" style="color:green;">
+                    Seguro nos vota
+                  </label>
+                </div>
+              </div>
+              <div class="col-md-4 mb-4">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="testigos" #testigos="ngModel" [(ngModel)]="recintoT.testigos" value="Aún no decide">
+                  <label class="form-check-label" for="testigos" style="color:orange">
+                    Aún no decide
+                  </label>
+                </div>
+              </div>
+              <div class="col-md-4 mb-4">
+                <div class="form-check disabled">
+                  <input class="form-check-input" type="radio" name="delegados" #delegados="ngModel" [(ngModel)]="recintoT.delegados" value="Seguro no nos vota">
+                  <label class="form-check-label" for="delegados" style="color:red;">
+                    Seguro no vota
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-secondary">Guardar</button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>

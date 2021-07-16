@@ -1,0 +1,179 @@
+<header id="main-header" class="py-2 bg-success text-white">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <h1>
+                    <i class="fas fa-cog"></i> Tareas
+                </h1>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Botones -->
+<section id="actions" class="py-4 mb-4 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3" *ngIf="userAdmin">
+                <a href="#" class="btn btn-success btn-block" data-toggle="modal" data-target="#agregarTareaModal">
+                    <i class="fas fa-plus"></i> Agregar Tarea
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--Listado de Tareas-->
+<ng-container *ngIf="!userAdmin">
+    <section id="tareas">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="card">
+                        <div class="card-header">
+                            <div *ngIf="! tareas.length">No hay tareas asignadas por el momento!</div>
+                            <h4>Listado de Tareas</h4>
+                        </div>
+                        <table class="table table-striped">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Tarea</th>
+                                    <th>Fecha de Inicio</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let tarea of tareas; let i = index">
+                                    <td>{{i+1}}</td>
+                                    <td>{{tarea.tarea}}</td>
+                                    <td>{{tarea.fecha_inicio}}</td>
+                                    <!-- <td style="color: white;" *ngIf="tarea.estado==null">{{tarea.estado}}</td>
+                      <td style="color: green;" *ngIf="tarea.estado=='INICIADA'">{{tarea.estado}}</td>
+                      <td style="color: gray;" *ngIf="tarea.estado=='CULMINADA'">{{tarea.estado}}</td>
+                      <td style="color: red;" *ngIf="tarea.estado=='BLOQUEADA'">{{tarea.estado}}</td> -->
+                                    <td>
+                                        <a routerLink="/tarea/editar/{{tarea.id}}" class="btn btn-secondary">
+                                            <!--Botor Editar Tareas-->
+                                            <i class="fas fa-user-edit"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!--Tarjeta lateral-->
+                <div class="col-md-3">
+                    <div class="card text-center bg-success text-white mb-3">
+                        <div class="card-body">
+                            <h3>Total Tareas</h3>
+                            <h4 class="display-4">
+                                <i class="fas fa-users"></i> {{tareas?.length}}
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <!--Fin tarjeta lateral-->
+            </div>
+        </div>
+    </section>
+</ng-container>
+
+<!--Agregar tarea modal-->
+<div class="modal fade" id="agregarTareaModal">
+    <div class="modal-dialog modal-ls">
+        <div class="modal-content">
+            <div class="modal-header bg-secondary text-white">
+                <h5 class="modal-title">Agregar Tarea</h5>
+                <button class="close" data-dismiss="modal" #botonCerrar>
+          <span>&times;</span>
+        </button>
+            </div>
+
+            <flash-messages></flash-messages>
+
+            <form #tareaForm="ngForm" (ngSubmit)="agregar(tareaForm)">
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="tarea">Tarea <strong style="color:red;">*</strong></label>
+                        <input type="text" name="tarea" class="form-control" #tarea="ngModel" [(ngModel)]="tareanew.tarea" [ngClass]="{'is-invalid': tarea.errors && tarea.touched}" required minlength="2">
+                        <div [hidden]="!tarea.errors?.required" class="invalid-feedback">
+                            La tarea es requerida
+                        </div>
+                        <div [hidden]="!tarea.errors?.minlength" class="invalid-feedback">
+                            Debe contener al menos 2 caracteres
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-md-6 mb-3">
+                            <label for="fecha_inicio">Fecha de Inicio <strong style="color:red;">*</strong></label>
+                            <input type="date" name="fecha_inicio" class="form-control" #fecha_inicio="ngModel" [(ngModel)]="tareanew.fecha_inicio" id=`fecheActual` [value]="" [ngClass]="{'is-invalid': fecha_inicio.errors && fecha_inicio.touched}" placeholder="dd/mm/aaaa" required>
+                            <div [hidden]="!fecha_fin.errors?.required" class="invalid-feedback">
+                                La fecha de inicio de la tarea es requerida
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="fecha_fin">Fecha de Culminación <strong style="color:red;">*</strong></label>
+                            <input type="date" name="fecha_fin" class="form-control" #fecha_fin="ngModel" [(ngModel)]="tareanew.fecha_fin" [ngClass]="{'is-invalid': fecha_fin.errors && fecha_fin.touched}" min="2020-08-01" max="2020-10-30" placeholder="dd/mm/aaaa" required>
+                            <div [hidden]="!fecha_fin.errors?.required" class="invalid-feedback">
+                                La fecha de culminación de la tarea es requerida
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="descripcion">Descripción <strong style="color:red;">*</strong></label>
+                        <textarea type="text" name="descripcion" class="form-control" #descripcion="ngModel" [(ngModel)]="tareanew.descripcion" [ngClass]="{'is-invalid': descripcion.errors && descripcion.touched}" minlength="2" required></textarea>
+                        <div [hidden]="!descripcion.errors?.required" class="invalid-feedback">
+                            La descripción es requerido
+                        </div>
+                        <div [hidden]="!descripcion.errors?.minlength" class="invalid-feedback">
+                            Debe contener al menos 2 caracteres
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="responsabe">Responsable <strong style="color:red;">*</strong></label>
+                        <select multiple class="form-control" name="responsable" #responsable="ngModel" (change)="onOptionsSelected(responsable.value)" [(ngModel)]="tareanew.responsable" required>
+            <option value="">Asigna responsable</option>
+            <option *ngFor="let responsabe of responsables" value="{{responsabe.id}}" (click)="seleccionItem(responsabe)" >
+              {{responsabe.nombre}} {{responsabe.apellido}}
+            </option>
+            </select>
+                        <label><strong>NOTA: </strong>
+              Para asignar mas de un resposable a la misma tarea, se debe oprimir la tecla
+              <strong>"ctrl + clic"</strong> sobre los nombres de la lista!
+            </label>
+                    </div>
+
+                    <!-- <ul class="checkbox-items">
+            <option value="">Asigna responsable</option>
+            <li *ngFor="let responsabe of responsables" value="{{responsabe.id}}" (click)="seleccionItem(responsabe)">
+              <input
+              type="checkbox"
+              name="responsable"
+              #responsable="ngModel"
+              [(ngModel)]="tareanew.responsable"
+              (change)="onOptionsSelected(responsable.value)"
+              >
+              {{responsabe.nombre}} {{responsabe.apellido}}
+            </li>
+          </ul> -->
+
+                    <input type="hidden" name="email" class="form-control" value="{{email}}" ngModel="{{email}}">
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-secondary">Guardar</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

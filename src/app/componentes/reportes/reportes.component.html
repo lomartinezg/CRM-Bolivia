@@ -1,0 +1,210 @@
+<header id="main-header" class="py-2 bg-success text-white">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <h1>
+          <i class="fas fa-cog"></i> Reportes
+        </h1>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <div class="form-row">
+
+    <!--Tarjeta lateral-->
+    <div class="form-group col-md-3">
+      <br>
+      <div class="card text-center bg-success text-white mb-3">
+        <div class="card-body">
+          <h3>Total Cargados</h3>
+          <h4 class="display-4">
+            <i class="fas fa-users"></i> {{clientes?.length}}
+          </h4>
+        </div>
+      </div>
+    </div>
+    <!--Fin tarjeta lateral-->
+
+    <!--Tarjeta lateral Email-->
+    <div class="form-group col-md-3">
+      <br>
+      <div class="card border-success mb-3 text-success mb-3">
+        <div class="card-body">
+          <h3> Email {{calcularPorcentajeE() | percent}}</h3>
+          <h4 class="display-4">
+            <i class="fas fa-users"></i> {{calcularEmail()}}
+          </h4>
+        </div>
+      </div>
+    </div>
+    <!--Fin tarjeta lateral-->
+
+    <!--Tarjeta lateral Hombres-->
+    <div class="form-group col-md-3">
+      <br>
+      <div class="card border-primary mb-3 text-primary mb-3">
+        <div class="card-body">
+          <h3> Hombres {{calcularPorcentajeH() | percent}}</h3>
+          <h4 class="display-4">
+            <i class="fas fa-users"></i> {{clientesH?.length}}
+          </h4>
+          <!-- <p class="card-text">{{calcularPorcentajeH() | percent}}</p> -->
+        </div>
+      </div>
+    </div>
+    <!--Fin tarjeta lateral-->
+
+    <!--Tarjeta lateral Mujer-->
+    <div class="form-group col-md-3">
+      <br>
+      <div class="card border-danger mb-3 text-danger mb-3">
+        <div class="card-body">
+          <h3> Mujeres {{calcularPorcentajeM() | percent}}</h3>
+          <h4 class="display-4">
+            <i class="fas fa-users"></i> {{clientesM?.length}}
+          </h4>
+        </div>
+      </div>
+    </div>
+    <!--Fin tarjeta lateral-->
+
+    <!--Tarjeta lateral-->
+    <div class="form-group col-md-3">
+      <br>
+      <!-- <div class="card text-center bg-success text-white mb-3">
+        <div class="card-body">
+          <h3>Total Activistas</h3>
+          <h4 class="display-4">
+            <i class="fas fa-users"></i> {{clientes?.length}}
+          </h4>
+        </div>
+      </div> -->
+    </div>
+    <!--Fin tarjeta lateral-->
+
+    <!--Tarjeta lateral Voluntarios-->
+    <div class="form-group col-md-3">
+      <br>
+      <div class="card border-success mb-3 text-success mb-3">
+        <div class="card-body">
+          <h3> Voluntarios {{calcularPorcentajeVol() | percent}}</h3>
+          <h4 class="display-4">
+            <i class="fas fa-users"></i> {{clientesVol?.length}}
+          </h4>
+        </div>
+      </div>
+    </div>
+    <!--Fin tarjeta lateral-->
+
+    <!--Tarjeta lateral Militantes-->
+    <div class="form-group col-md-3">
+      <br>
+      <div class="card border-success mb-3 text-success mb-3">
+        <div class="card-body">
+          <h3> Militantes {{calcularPorcentajeMil() | percent}}</h3>
+          <h4 class="display-4">
+            <i class="fas fa-users"></i> {{clientesMil?.length}}
+          </h4>
+        </div>
+      </div>
+    </div>
+    <!--Fin tarjeta lateral-->
+
+    <!--Tarjeta lateral Actividades-->
+    <div class="form-group col-md-3">
+      <br>
+      <div class="card border-success mb-3 text-success mb-3">
+        <div class="card-body">
+          <h3> Actividades {{calcularPorcentajeTar() | percent}}</h3>
+          <h4 class="display-4">
+            <i class="fas fa-users"></i> {{clientesTar?.length}}
+          </h4>
+        </div>
+      </div>
+    </div>
+    <!--Fin tarjeta lateral-->
+
+    <!--Tarjeta lateral-->
+    <div class="form-group col-md-3">
+      <br>
+      <div class="card text-center bg-light text-black mb-3">
+        <div class="card-body">
+          <h3>Total Tareas</h3>
+          <h4 class="display-4">
+            <i class="fas fa-users"></i> {{tareas?.length}}
+          </h4>
+        </div>
+      </div>
+    </div>
+    <!--Fin tarjeta lateral-->
+
+        <!--Tarjeta lateral Tareas Iniciadas-->
+        <div class="form-group col-md-3">
+          <br>
+          <div class="card text-center bg-light text-black mb-3">
+            <div class="card-body">
+              <h3> Iniciadas {{calcularPorcentajeIni() | percent}}</h3>
+              <h4 class="display-4">
+                <i class="fas fa-users"></i> {{tareasIni?.length}}
+              </h4>
+            </div>
+          </div>
+        </div>
+        <!--Fin tarjeta lateral-->
+
+        <!--Tarjeta lateral Tareas Culminadas-->
+        <div class="form-group col-md-3">
+          <br>
+          <div class="card text-center bg-light text-black mb-3">
+            <div class="card-body">
+              <h3> Culminadas {{calcularPorcentajeCul() | percent}}</h3>
+              <h4 class="display-4">
+                <i class="fas fa-users"></i> {{tareasCul?.length}}
+              </h4>
+            </div>
+          </div>
+        </div>
+        <!--Fin tarjeta lateral-->
+
+        <!--Tarjeta lateral Tareas Bloqueadas-->
+        <div class="form-group col-md-3">
+          <br>
+          <div class="card text-center bg-light text-black mb-3">
+            <div class="card-body">
+              <h3> Bloqueadas {{calcularPorcentajeBlo() | percent}}</h3>
+              <h4 class="display-4">
+                <i class="fas fa-users"></i> {{tareasBlo?.length}}
+              </h4>
+            </div>
+          </div>
+        </div>
+        <!--Fin tarjeta lateral-->
+
+  </div>
+
+  <!--Exportacion de reporte-->
+  <div class="form-group">
+    <!-- <div class="form-group col-md-6"> -->
+      <div>
+        <!-- <br> -->
+        <p>Descargar ficheros en formato Excel .XLSX <i class="fas fa-download"></i> hacer clic en el botón de abajo</p>
+      </div>
+      <div class="alert alert-secondary" role="alert">
+        Listado de potenciales votantes!
+        <button (click)="exportAsXLSX()" class="btn btn-link lg">
+          <i class="fas fa-file-excel"></i>
+        </button>
+      </div>
+      <div class="alert alert-secondary" role="alert">
+        Listado de tareas!
+        <button (click)="exportAsXLSX1()" class="btn btn-link lg">
+          <i class="fas fa-file-excel"></i>
+        </button>
+      </div>
+    <!-- </div> -->
+</div>
+
+</div>
+

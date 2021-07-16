@@ -1,0 +1,87 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "activista",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "nombre",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "apellido",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "sexo",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "email",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "usuario",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "activista",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "usuario",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "nombre",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "responsables",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "habilitado",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "nombre",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "tareas",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "usuario",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "fecha_inicio",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "usuarios",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "nombre",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "email",
+          "order": "ASCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

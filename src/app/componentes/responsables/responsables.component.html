@@ -1,0 +1,235 @@
+<header id="main-header" class="py-2 bg-success text-white">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <h1>
+          <i class="fas fa-cog"></i> Responsables
+        </h1>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Botones -->
+<section id="actions" class="py-4 mb-4 bg-light">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3">
+        <a href="#" class="btn btn-success btn-block" data-toggle="modal" data-target="#agregarResponsableModal">
+          <i class="fas fa-plus"></i> Agregar Responsable
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!--Listado de Responsables-->
+<section id="tareas">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-9">
+        <div class="card">
+          <div class="card-header">
+            <!-- <div *ngIf="! responsables.length">No hay tareas por el momento</div> -->
+            <h5>Listado de Responsables </h5>
+
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <input type="search" class="form-control" name="filterPost" placeholder="Buscar por nombre..." [(ngModel)]="filterPost">
+                </div>
+              </div>
+            </div>
+          </div>
+
+              <table class="table table-striped">
+                <thead class="thead-dark">
+                  <tr>
+                    <th>#</th>
+                    <th>Responsable</th>
+                    <th>Celular</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let responsabe of responsables | filter:filterPost: 'nombre' let i = index">
+                    <td>{{i+1}}</td>
+                    <td>{{responsabe.nombre}} {{responsabe.apellido}}</td>
+                    <td>{{responsabe.movil}}</td>
+                    <td>
+                      <a routerLink="/responsable/editar/{{responsabe.id}}" class="btn btn-secondary">
+                        <!--Botor Editar Responsable-->
+                        <i class="fas fa-user-edit"></i>
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+            </div>
+      </div>
+      <!--Tarjeta lateral-->
+      <div class="col-md-3">
+        <div class="card text-center bg-success text-white mb-3">
+          <div class="card-body">
+            <h3>Total Responsable</h3>
+            <h4 class="display-4">
+              <i class="fas fa-users"></i> {{responsables?.length}}
+            </h4>
+          </div>
+        </div>
+      </div>
+      <!--Fin tarjeta lateral-->
+    </div>
+  </div>
+</section>
+
+<!--Agregar responsable modal-->
+<div class="modal fade" id="agregarResponsableModal">
+  <div class="modal-dialog modal-ls">
+    <div class="modal-content">
+      <div class="modal-header bg-secondary text-white">
+        <h5 class="modal-title">Responsable</h5>
+        <button class="close" data-dismiss="modal" #botonCerrar>
+          <span>&times;</span>
+        </button>
+      </div>
+
+      <flash-messages></flash-messages>
+
+      <form #responsableForm="ngForm" (ngSubmit)="agregar(responsableForm)">
+        <div class="modal-body">
+
+          <div class="form-group">
+            <label for="distrito">Distrito</label>
+            <input
+              type="text"
+              name="distrito"
+              class="form-control"
+              #distrito="ngModel"
+              [(ngModel)]="responsable.distrito"
+              [ngClass]="{'is-invalid': distrito.errors && distrito.touched}"
+              minlength="2"
+              >
+              <div [hidden]="!distrito.errors?.minlength" class="invalid-feedback">
+                Debe contener al menos 2 caracteres
+              </div>
+          </div>
+
+          <div class="form-group">
+            <label for="ci">Carnet de Identidad</label>
+            <input
+              type="number"
+              name="ci"
+              class="form-control"
+              #ci="ngModel"
+              [(ngModel)]="responsable.ci"
+              [ngClass]="{'is-invalid': ci.errors && ci.touched}"
+              pattern="[0-9]{8}"
+              >
+              <div [hidden]="!ci.errors?.pattern" class="invalid-feedback">
+                El Carnet de Identidad debe contar con los 8 dígitos
+              </div>
+          </div>
+
+          <div class="form-group">
+            <label for="nombre">Nombre <strong style="color:red;">*</strong></label>
+            <input
+              type="text"
+              name="nombre"
+              class="form-control"
+              #nombre="ngModel"
+              [(ngModel)]="responsable.nombre"
+              [ngClass]="{'is-invalid': nombre.errors && nombre.touched}"
+              minlength="2"
+              required>
+            <div [hidden]="!nombre.errors?.required" class="invalid-feedback">
+              El nombre es requerido!
+            </div>
+            <div [hidden]="!nombre.errors?.minlength" class="invalid-feedback">
+              Debe contener al menos 2 caracteres
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="apellido">Apellido <strong style="color:red;">*</strong></label>
+            <input
+              type="text"
+              name="apellido"
+              class="form-control"
+              #apellido="ngModel"
+              [(ngModel)]="responsable.apellido"
+              [ngClass]="{'is-invalid': apellido.errors && apellido.touched}"
+              minlength="2"
+              required>
+            <div [hidden]="!apellido.errors?.required" class="invalid-feedback">
+              El apellido es requerido!
+            </div>
+            <div [hidden]="!apellido.errors?.minlength" class="invalid-feedback">
+              Debe contener al menos 2 caracteres
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="movil">Celular <strong style="color:red;">*</strong></label>
+            <input
+              type="tel"
+              name="movil"
+              class="form-control"
+              #movil="ngModel"
+              [(ngModel)]="responsable.movil"
+              [ngClass]="{'is-invalid': movil.errors && movil.touched}"
+              pattern="[0-9]{8}"
+              placeholder="80801212"
+              required>
+            <div [hidden]="!movil.errors?.required" class="invalid-feedback">
+              El celular es requerido!
+            </div>
+            <div [hidden]="!movil.errors?.pattern" class="invalid-feedback">
+              El celular debe contar con los 8 dígitos
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email <strong style="color:red;">*</strong></label>
+            <input
+              type="email"
+              name="email"
+              class="form-control"
+              #email="ngModel"
+              [(ngModel)]="responsable.email"
+              [ngClass]="{'is-invalid': email.errors && email.touched}"
+              pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+              placeholder="ejemplo@gmail.net"
+              required
+              >
+              <div [hidden]="!email.errors?.required" class="invalid-feedback">
+                El email es requerido!
+              </div>
+              <div [hidden]="!email.errors?.pattern" class="invalid-feedback">
+                Email no es válido
+              </div>
+          </div>
+
+          <input
+          type="hidden"
+          name="habilitado"
+          class="form-control"
+          value="{{true}}"
+          ngModel="responsable.habilitado"
+          >
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-secondary">Guardar</button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>
+
+

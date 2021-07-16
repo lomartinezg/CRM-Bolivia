@@ -1,0 +1,272 @@
+<header id="main-header" class="py-2 bg-success text-white">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h1>
+          <i class="fas fa-user"></i> Apertura de Recinto
+        </h1>
+      </div>
+    </div>
+  </div>
+</header>
+
+<form #recintoForm="ngForm" (ngSubmit)="guardar(recintoForm)">
+
+  <flash-messages></flash-messages>
+
+  <!--Botones-->
+  <section id="actions" class="py-4 mb-4 bg-light">
+    <div class="container">
+      <div class="form-row">
+        <div class="col-md-4 mb-3">
+          <a routerLink="/recinto" class="btn btn-light btn-block">
+            <i class="fas fa-arrow-left"></i> Regresar
+          </a>
+        </div>
+        <div class="col-md-4 mb-3">
+          <button type="submit" class="btn btn-success btn-block">
+            <i class="fas fa-check"></i> Confirmar
+          </button>
+        </div>
+        <!-- <div class="col-md-4 mb-3">
+          <a href="#" (click)="eliminar()" class="btn btn-danger btn-block">
+            <i class="fas fa-trash"></i> Eliminar
+          </a>
+        </div> -->
+      </div>
+    </div>
+  </section>
+
+  <section id="details">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="card-header">
+              <h4>Datos del Recinto</h4>
+            </div>
+            <div class="card-body">
+
+              <input
+              type="hidden"
+              name="usuario"
+              class="form-control"
+              #usuario="ngModel"
+              [(ngModel)]="userLogueado"
+              [value]="userLogueado"
+              readonly
+              >
+
+              <input
+              type="hidden"
+              name="creacion"
+              class="form-control"
+              #creacion="ngModel"
+              [(ngModel)]="fecheActual"
+              [value]="fecheActual"
+              readonly
+              >
+
+              <div class="form-row">
+                <div class="col-md-4 mb-4">
+                  <label for="provincia">Provincia </label>
+                  <input
+                  type="text"
+                  name="provincia"
+                  class="form-control"
+                  #provincia="ngModel"
+                  [(ngModel)]="recintoT.provincia"
+                  disabled>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                  <label for="municipio">Municipio </label>
+                  <input
+                  type="text"
+                  name="municipio"
+                  class="form-control"
+                  #municipio="ngModel"
+                  [(ngModel)]="recintoT.municipio"
+                  disabled>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                  <label for="asiento">Asiento </label>
+                  <input
+                  type="text"
+                  name="asiento"
+                  class="form-control"
+                  #asiento="ngModel"
+                  [(ngModel)]="recintoT.asiento"
+                  disabled>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="col-md-4 mb-4">
+                  <label for="recinto">Recinto </label>
+                  <input
+                  type="text"
+                  name="recinto"
+                  class="form-control"
+                  #recinto="ngModel"
+                  [(ngModel)]="recintoT.recinto"
+                  disabled>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                  <label for="mesas">Mesas </label>
+                  <input
+                  type="text"
+                  name="mesas"
+                  class="form-control"
+                  #mesas="ngModel"
+                  [(ngModel)]="recintoT.mesas"
+                  disabled>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                  <label for="electores">Electores </label>
+                  <input
+                  type="text"
+                  name="electores"
+                  class="form-control"
+                  #electores="ngModel"
+                  [(ngModel)]="recintoT.electores"
+                  disabled>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-body">
+                  <h6 class="card-title">Apertura de Recinto</h6>
+                  <div class="form-row">
+                    <div class="col-md-2 mb-2">
+                      <div class="form-check">
+                        <input
+                        type="checkbox"
+                        name="abierto"
+                        class="form-check-input"
+                        #abierto="ngModel"
+                        value=""
+                        [(ngModel)]="recintoT.abierto"
+                        >
+                        <label class="form-check-label" for="abierto">
+                          Abierto
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="col-md-2 mb-2">
+                      <div class="form-check">
+                        <input
+                        type="checkbox"
+                        name="autoridades_mesas"
+                        class="form-check-input"
+                        #autoridades_mesas="ngModel"
+                        value=""
+                        [(ngModel)]="recintoT.autoridades_mesas"
+                        >
+                        <label class="form-check-label" for="autoridades_mesas">
+                          Autoridades
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="col-md-2 mb-2">
+                      <div class="form-check">
+                        <input
+                        type="checkbox"
+                        name="testigos"
+                        class="form-check-input"
+                        #testigos="ngModel"
+                        value=""
+                        [(ngModel)]="recintoT.testigos"
+                        >
+                        <label class="form-check-label" for="testigos">
+                          Testigos
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="col-md-2 mb-2">
+                      <div class="form-check">
+                        <input
+                        type="checkbox"
+                        name="delegados"
+                        class="form-check-input"
+                        #delegados="ngModel"
+                        value=""
+                        [(ngModel)]="recintoT.delegados"
+                        >
+                        <label class="form-check-label" for="delegados">
+                          Delegados
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="col-md-2 mb-2">
+                      <div class="form-check">
+                        <input
+                        type="checkbox"
+                        name="fiscal"
+                        class="form-check-input"
+                        #fiscal="ngModel"
+                        value=""
+                        [(ngModel)]="recintoT.fiscal"
+                        >
+                        <label class="form-check-label" for="fiscal">
+                          Fiscal
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="col-md-2 mb-2">
+                      <div class="form-check">
+                        <input
+                        type="checkbox"
+                        name="comando_electoral"
+                        class="form-check-input"
+                        #comando_electoral="ngModel"
+                        value=""
+                        [(ngModel)]="recintoT.comando_electoral"
+                        >
+                        <label class="form-check-label" for="testigos">
+                          Militares
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="col-md-12 mb-12">
+                      <div class="form-group">
+                        <label for="comentarios">Comentarios</label>
+                        <textarea
+                          type="text"
+                          name="comentarios"
+                          class="form-control"
+                          #comentarios="ngModel"
+                          [(ngModel)]="recintoT.comentarios"
+                          [ngClass]="{'is-invalid': comentarios.errors && comentarios.touched}"
+                          minlength="2"
+                        ></textarea>
+                        <div [hidden]="!comentarios.errors?.minlength" class="invalid-feedback">
+                          La dirección debe contener al menos 2 caracteres
+                        </div>
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+
+</form>
+

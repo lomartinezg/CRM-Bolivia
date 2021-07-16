@@ -1,0 +1,171 @@
+<header id="main-header" class="py-2 bg-success text-white">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h1>
+          <i class="fas fa-user"></i> Editar
+        </h1>
+      </div>
+    </div>
+  </div>
+</header>
+
+<form #responsableForm="ngForm" (ngSubmit)="guardar(responsableForm)">
+
+  <flash-messages></flash-messages>
+
+  <!--Botones-->
+  <section id="actions" class="py-4 mb-4 bg-light">
+    <div class="container">
+      <div class="form-row">
+        <div class="col-md-4 mb-3">
+          <a routerLink="/responsable" class="btn btn-light btn-block">
+            <i class="fas fa-arrow-left"></i> Regresar
+          </a>
+        </div>
+        <div class="col-md-4 mb-3">
+          <button type="submit" class="btn btn-success btn-block">
+            <i class="fas fa-check"></i> Confirmar
+          </button>
+        </div>
+        <div class="col-md-4 mb-3">
+          <a href="/responsable" (click)="eliminar()" class="btn btn-danger btn-block">
+            <i class="fas fa-trash"></i> Eliminar
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="details">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="card-header">
+              <h4>Datos del Responsable</h4>
+            </div>
+            <div class="card-body">
+
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="distrito">Distrito</label>
+                  <input
+                    type="text"
+                    name="distrito"
+                    class="form-control"
+                    #distrito="ngModel"
+                    [(ngModel)]="responsable.distrito"
+                    [ngClass]="{'is-invalid': distrito.errors && distrito.touched}"
+                    minlength="2"
+                    >
+                    <div [hidden]="!distrito.errors?.minlength" class="invalid-feedback">
+                      Debe contener al menos 2 caracteres
+                    </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label for="ci">Carnet de Identidad</label>
+                  <input
+                    type="number"
+                    name="ci"
+                    class="form-control"
+                    #ci="ngModel"
+                    [(ngModel)]="responsable.ci"
+                    [ngClass]="{'is-invalid': ci.errors && ci.touched}"
+                    pattern="[0-9]{8}"
+                    >
+                    <div [hidden]="!ci.errors?.pattern" class="invalid-feedback">
+                      El Carnet de Identidad debe contar con los 8 dígitos
+                    </div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="col-md-6 mb-3">
+                <label for="nombre">Nombre <strong style="color:red;">*</strong></label>
+                <input type="text" name="nombre" class="form-control" #nombre="ngModel" [(ngModel)]="responsable.nombre"
+                  [ngClass]="{'is-invalid': nombre.errors && nombre.touched}" minlength="2" required>
+                <div [hidden]="!nombre.errors?.required" class="invalid-feedback">
+                  El nombre es requerido!
+                </div>
+                <div [hidden]="!nombre.errors?.minlength" class="invalid-feedback">
+                  Debe contener al menos 2 caracteres
+                </div>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="apellido">Apellido <strong style="color:red;">*</strong></label>
+                <input type="text" name="apellido" class="form-control" #apellido="ngModel" [(ngModel)]="responsable.apellido"
+                  [ngClass]="{'is-invalid': apellido.errors && apellido.touched}" minlength="2" required>
+                <div [hidden]="!apellido.errors?.required" class="invalid-feedback">
+                  El apellido es requerido!
+                </div>
+                <div [hidden]="!apellido.errors?.minlength" class="invalid-feedback">
+                  Debe contener al menos 2 caracteres
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="movil">Celular <strong style="color:red;">*</strong></label>
+              <input
+                type="tel"
+                name="movil"
+                class="form-control"
+                #movil="ngModel"
+                [(ngModel)]="responsable.movil"
+                [ngClass]="{'is-invalid': movil.errors && movil.touched}"
+                pattern="[0-9]{8}"
+                placeholder="80801212"
+                >
+              <div [hidden]="!movil.errors?.required" class="invalid-feedback">
+                El celular es requerido!
+              </div>
+              <div [hidden]="!movil.errors?.pattern" class="invalid-feedback">
+                El celular debe contar con los 8 dígitos
+              </div>
+            </div>
+
+              <div class="form-row">
+                <label for="email">Email <strong style="color:red;">*</strong></label>
+                <input
+                type="email"
+                name="email"
+                class="form-control"
+                #email="ngModel"
+                [(ngModel)]="responsable.email"
+                [ngClass]="{'is-invalid': email.errors && email.touched}"
+                pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                placeholder="ejemplo@gmail.net"
+                >
+                <div [hidden]="!apellido.errors?.required" class="invalid-feedback">
+                  El email es requerido!
+                </div>
+                <div [hidden]="!email.errors?.pattern" class="invalid-feedback">
+                  Email no es válido
+                </div>
+
+                <div class="form-check">
+                  <input
+                  type="checkbox"
+                  name="habilitado"
+                  class="form-check-input"
+                  #habilitado="ngModel"
+                  [(ngModel)]="responsable.habilitado"
+                  >
+                </div>
+                <label class="form-check-label" for="defaultCheck1">
+                  Habilitado
+                </label>
+            </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</form>
+

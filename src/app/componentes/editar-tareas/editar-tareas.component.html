@@ -1,0 +1,150 @@
+<header id="main-header" class="py-2 bg-success text-white">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h1>
+          <i class="fas fa-user"></i> Editar Tarea
+        </h1>
+      </div>
+    </div>
+  </div>
+</header>
+
+<form #tareaForm="ngForm" (ngSubmit)="guardar(tareaForm)">
+
+  <flash-messages></flash-messages>
+
+  <!--Botones-->
+  <section id="actions" class="py-4 mb-4 bg-light">
+    <div class="container">
+      <div class="form-row">
+        <div class="col-md-4 mb-3">
+          <a routerLink="/tarea" class="btn btn-light btn-block">
+            <i class="fas fa-arrow-left"></i> Regresar
+          </a>
+        </div>
+        <div class="col-md-4 mb-3">
+          <button type="submit" class="btn btn-success btn-block">
+            <i class="fas fa-check"></i> Confirmar
+          </button>
+        </div>
+        <!-- <div class="col-md-4 mb-3">
+          <a href="/tarea" (click)="eliminar()" class="btn btn-danger btn-block">
+            <i class="fas fa-trash"></i> Eliminar
+          </a>
+        </div> -->
+      </div>
+    </div>
+  </section>
+
+  <section id="details">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="card-header">
+              <h4>Tarea Asignada</h4>
+            </div>
+            <div class="card-body">
+
+              <div class="form-group">
+                <label for="tarea">Tarea</label>
+                <input type="text" name="tarea" class="form-control" #tarea="ngModel" [(ngModel)]="tareanew.tarea"
+                  [ngClass]="{'is-invalid': tarea.errors && tarea.touched}" minlength="2" disabled>
+                <div [hidden]="!tarea.errors?.required" class="invalid-feedback">
+                  La tarea es requerida
+                </div>
+                <div [hidden]="!tarea.errors?.minlength" class="invalid-feedback">
+                  Debe contener al menos 2 caracteres
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="col-md-6 mb-3">
+                  <label for="fecha_inicio">Fecha de inicio <strong style="color:red;">*</strong></label>
+                  <input
+                  type="date"
+                  name="fecha_inicio"
+                  class="form-control"
+                  #fecha_inicio="ngModel"
+                  [(ngModel)]="tareanew.fecha_inicio"
+                  placeholder="dd/mm/aaaa"
+                  disabled
+                  >
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label for="fecha_fin">Fecha de culminación <strong style="color:red;">*</strong></label>
+                  <input
+                  type="date"
+                  name="fecha_fin"
+                  class="form-control"
+                  #fecha_fin="ngModel"
+                  [(ngModel)]="tareanew.fecha_fin"
+                  placeholder="dd/mm/aaaa"
+                  disabled
+                  >
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="descripcion">Descripción <strong style="color:red;">*</strong></label>
+                <textarea type="textarea" name="descripcion" class="form-control" #descripcion="ngModel" [(ngModel)]="tareanew.descripcion"
+                  [ngClass]="{'is-invalid': descripcion.errors && descripcion.touched}" minlength="2" rows="8" disabled></textarea>
+                <div [hidden]="!descripcion.errors?.required" class="invalid-feedback">
+                  La descripción es requerida
+                </div>
+                <div [hidden]="!tarea.errors?.minlength" class="invalid-feedback">
+                  Debe contener al menos 2 caracteres
+                </div>
+              </div>
+
+              <div class="form-row">
+                <legend class="col-form-label col-sm-3 pt-0">Estado <strong style="color:red;">*</strong></legend>
+                <div class="col-md-3 mb-3">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="estado" #estado="ngModel" [(ngModel)]="tareanew.estado"  value="INICIADA">
+                    <label class="form-check-label" for="estado">
+                      Iniciado
+                    </label>
+                  </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="estado" #estado="ngModel" [(ngModel)]="tareanew.estado" value="CULMINADA">
+                    <label class="form-check-label" for="estado">
+                      Culminada
+                    </label>
+                  </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                  <div class="form-check disabled">
+                    <input class="form-check-input" type="radio" name="estado" #estado="ngModel" [(ngModel)]="tareanew.estado" value="BLOQUEADA">
+                    <label class="form-check-label" for="estado">
+                      Bloqueada
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="comentario">Comentario <strong style="color:red;">*</strong></label>
+                <textarea name="comentario" class="form-control" #comentario="ngModel" [(ngModel)]="tareanew.comentario"
+                  [ngClass]="{'is-invalid': comentario.errors && comentario.touched}" minlength="2" required></textarea>
+                <div [hidden]="!comentario.errors?.required" class="invalid-feedback">
+                  El comemntario es requerida
+                </div>
+                <div [hidden]="!comentario.errors?.minlength" class="invalid-feedback">
+                  Debe contener al menos 2 caracteres
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</form>
+

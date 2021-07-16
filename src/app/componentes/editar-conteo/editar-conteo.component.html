@@ -1,0 +1,232 @@
+<header id="main-header" class="py-2 bg-success text-white">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h1>
+          <i class="fas fa-user"></i> Conteo Rápido
+        </h1>
+      </div>
+    </div>
+  </div>
+</header>
+
+<form #conteoForm="ngForm" (ngSubmit)="guardar(conteoForm)">
+
+  <flash-messages></flash-messages>
+
+  <!--Botones-->
+  <section id="actions" class="py-4 mb-4 bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <a routerLink="/conteo" class="btn btn-light btn-block">
+            <i class="fas fa-arrow-left"></i> Regresar al Inicio
+          </a>
+        </div>
+        <div class="col-md-3">
+          <button type="submit" class="btn btn-success btn-block">
+            <i class="fas fa-check"></i> Confirmar
+          </button>
+        </div>
+        <!-- <div class="col-md-3">
+          <a href="#" (click)="eliminar()" class="btn btn-danger btn-block">
+            <i class="fas fa-trash"></i> Eliminar Centro
+          </a>
+        </div> -->
+      </div>
+    </div>
+  </section>
+
+  <section id="details">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="card-header">
+              <h4>Declarar Votos</h4>
+            </div>
+            <div class="card-body">
+
+              <!-- <div class="form-group">
+                <label for="cod_centro">Código CV</label>
+                <input type="cod_centro" name="cod_centro" class="form-control" #cod_centro="ngModel" [(ngModel)]="conteo.cod_centro"
+                  [ngClass]="{'is-invalid': cod_centro.errors && cod_centro.touched}" disabled>
+                <div [hidden]="!cod_centro.errors?.required" class="invalid-feedback">
+                  Código requerido
+                </div>
+              </div> -->
+
+              <div class="card-body">
+
+                <input
+                type="hidden"
+                name="usuario"
+                class="form-control"
+                #usuario="ngModel"
+                [(ngModel)]="userLogueado"
+                [value]="userLogueado"
+                readonly
+                >
+
+                <input
+                type="hidden"
+                name="fecha_act"
+                class="form-control"
+                #fecha_act="ngModel"
+                [(ngModel)]="fecheActual"
+                [value]="fecheActual"
+                readonly
+                >
+
+                <input
+                type="hidden"
+                name="contado"
+                class="form-control"
+                #contado="ngModel"
+                [(ngModel)]="totalizado"
+                [value]="totalizado"
+                readonly
+                >
+
+
+                <div class="form-row">
+                  <div class="col-md-4 mb-4">
+                    <label for="provincia">Provincia </label>
+                    <input
+                    type="text"
+                    name="provincia"
+                    class="form-control"
+                    #provincia="ngModel"
+                    [(ngModel)]="conteo.provincia"
+                    disabled>
+                  </div>
+
+                  <div class="col-md-4 mb-4">
+                    <label for="municipio">Municipio </label>
+                    <input
+                    type="text"
+                    name="municipio"
+                    class="form-control"
+                    #municipio="ngModel"
+                    [(ngModel)]="conteo.municipio"
+                    disabled>
+                  </div>
+
+                  <div class="col-md-4 mb-4">
+                    <label for="asiento">Asiento </label>
+                    <input
+                    type="text"
+                    name="asiento"
+                    class="form-control"
+                    #asiento="ngModel"
+                    [(ngModel)]="conteo.asiento"
+                    disabled>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="col-md-4 mb-4">
+                    <label for="recinto">Recinto </label>
+                    <input
+                    type="text"
+                    name="recinto"
+                    class="form-control"
+                    #recinto="ngModel"
+                    [(ngModel)]="conteo.recinto"
+                    disabled>
+                  </div>
+
+                  <div class="col-md-4 mb-4">
+                    <label for="mesa">Mesa </label>
+                    <input
+                    type="text"
+                    name="mesa"
+                    class="form-control"
+                    #mesa="ngModel"
+                    [(ngModel)]="conteo.mesa"
+                    disabled>
+                  </div>
+
+                  <div class="col-md-4 mb-4">
+                    <label for="electores">Electores </label>
+                    <input
+                    type="text"
+                    name="electores"
+                    class="form-control"
+                    #electores="ngModel"
+                    [(ngModel)]="conteo.electores"
+                    disabled>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="form-group">
+                <label for="electores">Electores</label>
+                <input type="number" name="electores" class="form-control" #electores="ngModel" [(ngModel)]="conteo.electores"
+                  [ngClass]="{'is-invalid': electores.errors && electores.touched}" disabled>
+                <div [hidden]="!electores.errors?.required" class="invalid-feedback">
+                  Electores requerido
+                </div>
+              </div> -->
+
+              <div class="card">
+                <div class="card-body">
+                  <h6 class="card-title">Totalización de mesa</h6>
+                  <div class="form-row">
+                    <div class="col-md-3 mb-3">
+                      <label for="votos_canidatoa">Candidato A</label>
+                      <input type="number" name="votos_canidatoa" class="form-control" #votos_canidatoa="ngModel" [(ngModel)]="conteo.votos_canidatoa"
+                        [ngClass]="{'is-invalid': votos_canidatoa.errors && votos_canidatoa.touched}" maxlength="4" required>
+                      <div [hidden]="!votos_canidatoa.errors?.required" class="invalid-feedback">
+                        Candidato A requerido
+                      </div>
+                      <div [hidden]="!votos_canidatoa.errors?.maxlength" class="invalid-feedback">
+                        Debe contener maximo 4 caracteres
+                      </div>
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+                      <label for="votos_canidatob">Candidato B</label>
+                      <input type="number" name="votos_canidatob" class="form-control" #votos_canidatob="ngModel" [(ngModel)]="conteo.votos_canidatob"
+                        [ngClass]="{'is-invalid': votos_canidatob.errors && votos_canidatob.touched}" maxlength="4" required>
+                      <div [hidden]="!votos_canidatob.errors?.required" class="invalid-feedback">
+                        Candidato B requerido
+                      </div>
+                      <div [hidden]="!votos_canidatob.errors?.maxlength" class="invalid-feedback">
+                        Debe contener maximo 4 caracteres
+                      </div>
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+                      <label for="votos_nulos">Votos Nulos</label>
+                      <input type="number" name="votos_nulos" class="form-control" #votos_nulos="ngModel" [(ngModel)]="conteo.votos_nulos"
+                        [ngClass]="{'is-invalid': votos_nulos.errors && votos_nulos.touched}" maxlength="4" required>
+                      <div [hidden]="!votos_nulos.errors?.required" class="invalid-feedback">
+                        Votos nulos requerido
+                      </div>
+                      <div [hidden]="!votos_nulos.errors?.maxlength" class="invalid-feedback">
+                        Debe contener maximo 4 caracteres
+                      </div>
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+                      <label>Total votos</label>
+                      <input
+                      type="text"
+                      class="form-control"
+                      name="resultado"
+                      #resultado="ngModel"
+                      ngModel="{{conteo.votos_canidatoa+conteo.votos_canidatob+conteo.votos_nulos | number }}"
+                      disabled>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</form>

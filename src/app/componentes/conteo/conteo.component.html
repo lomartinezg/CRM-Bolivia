@@ -1,0 +1,131 @@
+<header id="main-header" class="py-2 bg-success text-white">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h1>
+          <i class="fas fa-user"></i> Totalización
+        </h1>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Botones -->
+<section id="actions" class="py-4 mb-4 bg-light">
+  <div class="container">
+    <!-- <div class="row">
+      <div class="col-md-3">
+        <a href="#" class="btn btn-primary btn-block" data-toggle="modal" data-target="#agregarconteoModal">
+          <i class="fas fa-plus"></i> Agregar Centro
+        </a>
+      </div>
+    </div> -->
+  </div>
+</section>
+
+<!--Listado de Centros-->
+<section id="conteos">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-9">
+        <div class="card">
+          <div class="card-header">
+            <h4>Listado de Recintos</h4>
+
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <input type="search" class="form-control" name="filterPost" placeholder="Buscar por nombre de recinto..." [(ngModel)]="filterPost">
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <table class="table table-striped">
+            <thead class="thead-dark">
+              <tr>
+                <th>#</th>
+                <th>Distrito</th>
+                <th>Recinto</th>
+                <th>Mesa</th>
+                <th>Electores</th>
+                <th>Contado</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let conteo of conteos | filter:filterPost:'recinto' let i = index">
+                <td>{{i+1}}</td>
+                <td>{{conteo.distrito}}</td>
+                <td>{{conteo.recinto}}</td>
+                <td>{{conteo.mesa}}</td>
+                <td>{{conteo.electores}}</td>
+                <td style="color: green;" align="center"><strong>{{conteo.contado}}</strong></td>
+                <td>
+                  <a routerLink="/conteo/editar/{{conteo.id}}" class="btn btn-secondary">
+                    <i class="fas fa-angle-double-right"></i> Declarar
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!--Tarjeta lateral-->
+      <div class="col-md-3">
+        <div class="card text-center bg-success text-white mb-3">
+          <div class="card-body">
+            <h3>Total Recintos</h3>
+            <h4 class="display-4">
+              <i class="fas fa-users"></i> {{conteos?.length}}
+            </h4>
+          </div>
+        </div>
+      </div>
+      <!--Fin tarjeta lateral-->
+
+    </div>
+  </div>
+</section>
+
+<!--Agregar conteo modal-->
+<div class="modal fade" id="agregarconteoModal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header bg-info text-white">
+        <h5 class="modal-title">Agregar Centros</h5>
+        <button class="close" data-dismiss="modal" #botonCerrar>
+          <span>&times;</span>
+        </button>
+      </div>
+
+      <flash-messages></flash-messages>
+
+      <form #conteoForm="ngForm" (ngSubmit)="agregar(conteoForm)">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="cod_centro">Código CV</label>
+            <input
+              type="number"
+              name="cod_centro"
+              class="form-control"
+              #cod_centro="ngModel"
+              [(ngModel)]="conteo.distrito"
+              [ngClass]="{'is-invalid': cod_centro.errors && cod_centro.touched}"
+              required>
+              <div [hidden]="!cod_centro.errors?.required" class="invalid-feedback">
+                Código de centro requerido
+              </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>
+

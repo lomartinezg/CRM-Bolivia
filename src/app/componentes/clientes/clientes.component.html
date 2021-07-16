@@ -1,0 +1,413 @@
+<!-- Botones -->
+<section id="actions" class="py-4 mb-4 bg-light">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3">
+        <a href="#" class="btn btn-success btn-block" data-toggle="modal" data-target="#agregarClienteModal">
+          <i class="fas fa-plus"></i> Agregar Potencial Votante
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--Listado Clientes-->
+<section id="clientes">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-9">
+        <div class="card">
+          <div class="card-header">
+            <h4>Listado de Votantes</h4>
+
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <input type="search" class="form-control" name="filterPost" placeholder="Buscar por nombre..." [(ngModel)]="filterPost">
+                </div>
+              </div>
+            </div>
+
+          </div>
+              <table class="table table-striped">
+                <thead class="thead-dark">
+                  <tr>
+                    <th>#</th>
+                    <th>Nombre</th>
+                    <th>celular</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let cliente of clientes | filter:filterPost:'nombre' let i = index">
+                    <td>{{i+1}}</td>
+                    <td>{{cliente.nombre}} {{cliente.apellido}}</td>
+                    <td>{{cliente.movil}}</td>
+                    <td>
+                      <a routerLink="/cliente/editar/{{cliente.id}}" class="btn btn-secondary">
+                        <!--Botor Editar Clientes-->
+                        <i class="fas fa-user-edit"></i>
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+      </div>
+      <!--Tarjeta lateral-->
+      <div class="col-md-3">
+        <div class="card text-center bg-success text-white mb-3">
+          <div class="card-body">
+            <h3>Total Cargados</h3>
+            <h4 class="display-4">
+              <i class="fas fa-users"></i> {{clientes?.length}}
+            </h4>
+          </div>
+        </div>
+      </div>
+      <!--Fin tarjeta lateral-->
+    </div>
+  </div>
+</section>
+
+<!--Agregar cliente modal-->
+<div class="modal fade" id="agregarClienteModal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header bg-secondary text-white">
+        <h5 class="modal-title">Potencial Votante</h5>
+        <button class="close" data-dismiss="modal" #botonCerrar>
+          <span>&times;</span>
+        </button>
+      </div>
+
+      <flash-messages></flash-messages>
+
+      <form #clienteForm="ngForm" (ngSubmit)="agregar(clienteForm)">
+        <div class="modal-body">
+
+          <input
+            type="hidden"
+            name="usuario"
+            class="form-control"
+            #usuario="ngModel"
+            [(ngModel)]="userLogueado"
+            [value]="userLogueado"
+            readonly
+            >
+
+            <input
+            type="hidden"
+            name="creacion"
+            class="form-control"
+            #creacion="ngModel"
+            [(ngModel)]="fecheActual"
+            [value]="fecheActual"
+            readonly
+            >
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="ci">Carnet de Identidad</label>
+            </div>
+
+            <div class="form-group col-md-6">
+              <input
+                type="number"
+                name="ci"
+                class="form-control"
+                #ci="ngModel"
+                [(ngModel)]="cliente.ci"
+                [ngClass]="{'is-invalid': ci.errors && ci.touched}"
+                pattern="[0-9]{7,8}"
+              >
+              <div [hidden]="!ci.errors?.pattern" class="invalid-feedback">
+                El CI debe contener entre 7 a 8 dígitos!
+              </div>
+            </div>
+            <!-- <div class="form-group col-md-6">
+              <div class="form-check">
+                <input
+                type="checkbox"
+                name="voluntario"
+                class="form-check-input"
+                #voluntario="ngModel"
+                value=""
+                [(ngModel)]="cliente.voluntario"
+                >
+                <label class="form-check-label" for="voluntario">
+                  Voluntario
+                </label>
+              </div>
+
+              <div class="form-check">
+                <input
+                type="checkbox"
+                name="realiza_actividad"
+                class="form-check-input"
+                #realiza_actividad="ngModel"
+                value=""
+                [(ngModel)]="cliente.realiza_actividad"
+                >
+                <label class="form-check-label" for="realiza_actividad">
+                  Realizar actividades
+                </label>
+              </div>
+
+              <div class="form-check">
+                <input
+                type="checkbox"
+                name="militante"
+                class="form-check-input"
+                #militante="ngModel"
+                value=""
+                [(ngModel)]="cliente.militante"
+                >
+                <label class="form-check-label" for="militante">
+                  Militante
+                </label>
+              </div>
+
+            </div> -->
+
+          </div>
+
+          <div class="form-row">
+            <div class="col-md-6 mb-3">
+              <label for="nombre">Nombre <strong style="color:red;">*</strong></label>
+              <input
+                type="text"
+                name="nombre"
+                class="form-control"
+                #nombre="ngModel"
+                [(ngModel)]="cliente.nombre"
+                [ngClass]="{'is-invalid': nombre.errors && nombre.touched}"
+                required
+                minlength="2">
+              <div [hidden]="!nombre.errors?.required" class="invalid-feedback">
+                El nombre es requerido!
+              </div>
+              <div [hidden]="!nombre.errors?.minlength" class="invalid-feedback">
+                Debe contener al menos 2 caracteres
+              </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label for="apellido">Apellido <strong style="color:red;">*</strong></label>
+              <input
+                type="text"
+                name="apellido"
+                class="form-control"
+                #apellido="ngModel"
+                [(ngModel)]="cliente.apellido"
+                [ngClass]="{'is-invalid': apellido.errors && apellido.touched}"
+                required
+                minlength="2">
+              <div [hidden]="!apellido.errors?.required" class="invalid-feedback">
+                El apellido es requerido!
+              </div>
+              <div [hidden]="!apellido.errors?.minlength" class="invalid-feedback">
+                Debe contener al menos 2 caracteres
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <!-- <div class="col-md-6 mb-3">
+              <label for="fecha_nac">Fecha nacimiento</label>
+              <input
+                type="date"
+                name="fecha_nac"
+                class="form-control"
+                #fecha_nac="ngModel"
+                [(ngModel)]="cliente.fecha_nac"
+                [ngClass]="{'is-invalid': fecha_nac.errors && fecha_nac.touched}"
+                min="1900-01-31" max="2002-12-31"
+                placeholder="dd/mm/aaaa"
+                >
+            </div> -->
+
+            <div class="col-md-6 mb-3">
+              <label for="edad">Edad</label>
+              <input
+                type="number"
+                name="edad"
+                class="form-control"
+                #edad="ngModel"
+                [(ngModel)]="cliente.edad"
+                [ngClass]="{'is-invalid': edad.errors && edad.touched}"
+                pattern="[0-9]{2}"
+                min="18"
+                max="99"
+                placeholder="18"
+              >
+              <div [hidden]="!edad.errors?.pattern" class="invalid-feedback">
+                La edad debe contar con 2 dígitos numéricos
+              </div>
+              <div [hidden]="!edad.errors?.min" class="invalid-feedback">
+                La edad debe ser mayor a 17 años!
+              </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label for="sexo">Género</label>
+              <select
+                class="form-control"
+                name="sexo"
+                #sexo="ngModel"
+                [(ngModel)]="cliente.sexo"
+                >
+                <option value="" selected>Selecciona...</option>
+                <option value="F">Femenino</option>
+                <option value="M">Masculino</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="col-md-6 mb-3">
+              <label for="movil">Celular <strong style="color:red;">*</strong></label>
+              <input
+                type="tel"
+                name="movil"
+                class="form-control"
+                #movil="ngModel"
+                [(ngModel)]="cliente.movil"
+                [ngClass]="{'is-invalid': movil.errors && movil.touched}"
+                pattern="[0-9]{8}"
+                placeholder="80801212"
+                required>
+              <div [hidden]="!movil.errors?.required" class="invalid-feedback">
+                El celular es requerido!
+              </div>
+              <div [hidden]="!movil.errors?.pattern" class="invalid-feedback">
+                El celular debe contar con los 8 dígitos
+              </div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label for="email">Email</label>
+              <input
+                type="email"
+                name="email"
+                class="form-control"
+                #email="ngModel"
+                [(ngModel)]="cliente.email"
+                [ngClass]="{'is-invalid': email.errors && email.touched}"
+                pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                placeholder="ejemplo@gmail.net">
+              <div [hidden]="!email.errors?.pattern" class="invalid-feedback">
+                Email no válido
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="direccion">Dirección</label>
+            <input
+              type="text"
+              name="direccion"
+              class="form-control"
+              #direccion="ngModel"
+              [(ngModel)]="cliente.direccion"
+              [ngClass]="{'is-invalid': direccion.errors && direccion.touched}"
+              minlength="2">
+            <div [hidden]="!direccion.errors?.minlength" class="invalid-feedback">
+              La dirección debe contener al menos 2 caracteres
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="col-md-6 mb-3">
+              <label for="problema_trinidad">Principal problema de Trinidad </label>
+              <select
+              class="form-control"
+              name="problema_trinidad"
+              #problema_trinidad="ngModel"
+              [(ngModel)]="cliente.problema_trinidad"
+              >
+              <option value="" selected>Selecciona...</option>
+              <option value="Infraestructura pública">Infraestructura pública</option>
+              <option value="Corrupción">Corrupción</option>
+              <option value="La economía">La economía</option>
+              <option value="Sistema de Salud">Sistema de Salud</option>
+              <option value="Servicios básicos">Servicios básicos</option>
+            </select>
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label for="problema_personal">Principal problema personal</label>
+              <select
+              class="form-control"
+              name="problema_personal"
+              #problema_personal="ngModel"
+              [(ngModel)]="cliente.problema_personal"
+              >
+              <option value="" selected>Selecciona...</option>
+              <option value="Desempleo">Desempleo</option>
+              <option value="Crisis económica">Crisis económica</option>
+              <option value="Pandemia">Pandemia</option>
+              <option value="Servicios Básicos">Servicios Básicos</option>
+            </select>
+            </div>
+          </div>
+
+          <div class="col-md-12 mb-12">
+            <div class="form-check">
+              <input
+              type="checkbox"
+              name="realiza_actividad"
+              class="form-check-input"
+              #realiza_actividad="ngModel"
+              value=""
+              [(ngModel)]="cliente.realiza_actividad"
+              >
+              <label class="form-check-label" for="realiza_actividad">
+                Está dispuesto a realizar actividades
+              </label>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-body">
+              <h6 class="card-title">Intención de voto</h6>
+                <div class="form-row">
+                  <div class="col-md-4 mb-4">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="intension_voto" #intension_voto="ngModel" [(ngModel)]="cliente.intension_voto"  value="Seguro nos vota">
+                      <label class="form-check-label" for="intension_voto" style="color:green;">
+                        Seguro nos vota
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-md-4 mb-4">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="intension_voto" #intension_voto="ngModel" [(ngModel)]="cliente.intension_voto" value="Aún no decide">
+                      <label class="form-check-label" for="intension_voto" style="color:orange">
+                        Aún no decide
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-md-4 mb-4">
+                    <div class="form-check disabled">
+                      <input class="form-check-input" type="radio" name="intension_voto" #intension_voto="ngModel" [(ngModel)]="cliente.intension_voto" value="Seguro no nos vota">
+                      <label class="form-check-label" for="intension_voto" style="color:red;">
+                        Seguro no nos vota
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-secondary">Guardar</button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>
